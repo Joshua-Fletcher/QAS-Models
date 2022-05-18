@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_0xe0guc" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <decision id="Decision_0xkhxb5" name="Time Entry">
+    <informationRequirement id="InformationRequirement_1cwrt1u">
+      <requiredDecision href="#Decision_0khb6c0" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_12t43n7">
+      <input id="Input_1">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" typeRef="string" />
+    </decisionTable>
+  </decision>
+  <decision id="Decision_0khb6c0" name="Time Entry Part Numbers">
+    <informationRequirement id="InformationRequirement_10feth8">
+      <requiredDecision href="#Decision_0xkhxb5" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0b2zhpz">
+      <requiredDecision href="#Decision_0vanm3g" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0hhsn1d">
+      <requiredDecision href="#Decision_00lgiv6" />
+    </informationRequirement>
+  </decision>
+  <decision id="Decision_0vanm3g" name="Rejects">
+    <informationRequirement id="InformationRequirement_1163pmp">
+      <requiredDecision href="#Decision_17btlmu" />
+    </informationRequirement>
+  </decision>
+  <decision id="Decision_17btlmu" name="Reject Defect">
+    <informationRequirement id="InformationRequirement_0hi1xkc">
+      <requiredDecision href="#Decision_0s7o2tu" />
+    </informationRequirement>
+  </decision>
+  <decision id="Decision_0s7o2tu" name="Defect" />
+  <decision id="Decision_00lgiv6" name="Part Numbers" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_0xkhxb5">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0nxa61z" dmnElementRef="Decision_0khb6c0">
+        <dc:Bounds height="80" width="180" x="160" y="230" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_16p9d1o" dmnElementRef="InformationRequirement_1cwrt1u">
+        <di:waypoint x="250" y="230" />
+        <di:waypoint x="250" y="180" />
+        <di:waypoint x="250" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_13wa6ob" dmnElementRef="InformationRequirement_10feth8">
+        <di:waypoint x="250" y="160" />
+        <di:waypoint x="250" y="210" />
+        <di:waypoint x="250" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0z4sblv" dmnElementRef="Decision_0vanm3g">
+        <dc:Bounds height="80" width="180" x="160" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0cdgdny" dmnElementRef="InformationRequirement_0b2zhpz">
+        <di:waypoint x="250" y="370" />
+        <di:waypoint x="250" y="330" />
+        <di:waypoint x="250" y="310" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1pyicuh" dmnElementRef="Decision_17btlmu">
+        <dc:Bounds height="80" width="180" x="420" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_10sxfz6" dmnElementRef="Decision_0s7o2tu">
+        <dc:Bounds height="80" width="180" x="670" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0ak2tk0" dmnElementRef="InformationRequirement_1163pmp">
+        <di:waypoint x="420" y="410" />
+        <di:waypoint x="360" y="410" />
+        <di:waypoint x="340" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_09236jn" dmnElementRef="InformationRequirement_0hi1xkc">
+        <di:waypoint x="670" y="410" />
+        <di:waypoint x="620" y="410" />
+        <di:waypoint x="600" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0zkn9jp" dmnElementRef="Decision_00lgiv6">
+        <dc:Bounds height="80" width="180" x="420" y="230" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1wd69xr" dmnElementRef="InformationRequirement_0hhsn1d">
+        <di:waypoint x="420" y="270" />
+        <di:waypoint x="360" y="270" />
+        <di:waypoint x="340" y="270" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
