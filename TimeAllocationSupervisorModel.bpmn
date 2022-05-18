@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0qacp05" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="Process_1if6qe1" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Daily Review Page is Launched">
+      <bpmn:outgoing>Flow_0chndd6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_1vh8i6f" name="Call getDailyReview with currentTIme from API">
+      <bpmn:incoming>Flow_0chndd6</bpmn:incoming>
+      <bpmn:outgoing>Flow_03wk417</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0chndd6" sourceRef="StartEvent_1" targetRef="Activity_1vh8i6f" />
+    <bpmn:task id="Activity_0h7vbgd" name="Make DailyTimeModel for all time entries">
+      <bpmn:incoming>Flow_03wk417</bpmn:incoming>
+      <bpmn:outgoing>Flow_1a1fzcr</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_1epzahd" name="Add DailyTimeModel List to DailyreviewModel">
+      <bpmn:incoming>Flow_1a1fzcr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hihjp6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_1gcs1uc" name="Return DailyReviewModel">
+      <bpmn:incoming>Flow_1hihjp6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pxo7yq</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_03wk417" sourceRef="Activity_1vh8i6f" targetRef="Activity_0h7vbgd" />
+    <bpmn:sequenceFlow id="Flow_1a1fzcr" sourceRef="Activity_0h7vbgd" targetRef="Activity_1epzahd" />
+    <bpmn:sequenceFlow id="Flow_1hihjp6" sourceRef="Activity_1epzahd" targetRef="Activity_1gcs1uc" />
+    <bpmn:task id="Activity_1ndxlkk" name="Make allocation table from return">
+      <bpmn:incoming>Flow_1pxo7yq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nzsui7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1pxo7yq" sourceRef="Activity_1gcs1uc" targetRef="Activity_1ndxlkk" />
+    <bpmn:intermediateThrowEvent id="Event_07uqtfc" name="Confirm Logout">
+      <bpmn:incoming>Flow_1nzsui7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qgx5z2</bpmn:outgoing>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_1nzsui7" sourceRef="Activity_1ndxlkk" targetRef="Event_07uqtfc" />
+    <bpmn:task id="Activity_0sciobk" name="Call addSupervisorTime with currentTIme and Allocation Table">
+      <bpmn:incoming>Flow_1qgx5z2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0khanuq</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1qgx5z2" sourceRef="Event_07uqtfc" targetRef="Activity_0sciobk" />
+    <bpmn:task id="Activity_1ky2n71" name="Create Time Entries for all jobs in Allocation table">
+      <bpmn:incoming>Flow_0ev4j31</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kiyjsm</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_0wlicmo" name="Turn Allocation Table into SupervisorTimeModel w/ CurrentTIme">
+      <bpmn:incoming>Flow_0khanuq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ev4j31</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_1ns1q2r" name="Add new Entries and remove old Entries">
+      <bpmn:incoming>Flow_0kiyjsm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g4x7x3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_12tj031" name="Return List of new Entries">
+      <bpmn:incoming>Flow_1g4x7x3</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0khanuq" sourceRef="Activity_0sciobk" targetRef="Activity_0wlicmo" />
+    <bpmn:sequenceFlow id="Flow_0ev4j31" sourceRef="Activity_0wlicmo" targetRef="Activity_1ky2n71" />
+    <bpmn:sequenceFlow id="Flow_0kiyjsm" sourceRef="Activity_1ky2n71" targetRef="Activity_1ns1q2r" />
+    <bpmn:sequenceFlow id="Flow_1g4x7x3" sourceRef="Activity_1ns1q2r" targetRef="Activity_12tj031" />
+    <bpmn:textAnnotation id="TextAnnotation_15twtvi">
+      <bpmn:text>between startTime and currentTime by Employee</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0tuhrpi" sourceRef="Activity_0h7vbgd" targetRef="TextAnnotation_15twtvi" />
+    <bpmn:group id="Group_1bdkbwi" categoryValueRef="CategoryValue_07r418g" />
+    <bpmn:textAnnotation id="TextAnnotation_0mv8vdk">
+      <bpmn:text>QASApiCore</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0xytll2" sourceRef="Group_1bdkbwi" targetRef="TextAnnotation_0mv8vdk" />
+  </bpmn:process>
+  <bpmn:category id="Category_0z4k5bx">
+    <bpmn:categoryValue id="CategoryValue_07r418g" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1if6qe1">
+      <bpmndi:BPMNShape id="TextAnnotation_15twtvi_di" bpmnElement="TextAnnotation_15twtvi">
+        <dc:Bounds x="190" y="335" width="100" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0mv8vdk_di" bpmnElement="TextAnnotation_0mv8vdk">
+        <dc:Bounds x="1180" y="80" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0chndd6_di" bpmnElement="Flow_0chndd6">
+        <di:waypoint x="228" y="520" />
+        <di:waypoint x="330" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03wk417_di" bpmnElement="Flow_03wk417">
+        <di:waypoint x="380" y="480" />
+        <di:waypoint x="380" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1a1fzcr_di" bpmnElement="Flow_1a1fzcr">
+        <di:waypoint x="380" y="350" />
+        <di:waypoint x="380" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hihjp6_di" bpmnElement="Flow_1hihjp6">
+        <di:waypoint x="430" y="260" />
+        <di:waypoint x="500" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pxo7yq_di" bpmnElement="Flow_1pxo7yq">
+        <di:waypoint x="550" y="300" />
+        <di:waypoint x="550" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nzsui7_di" bpmnElement="Flow_1nzsui7">
+        <di:waypoint x="600" y="520" />
+        <di:waypoint x="682" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qgx5z2_di" bpmnElement="Flow_1qgx5z2">
+        <di:waypoint x="718" y="520" />
+        <di:waypoint x="780" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0khanuq_di" bpmnElement="Flow_0khanuq">
+        <di:waypoint x="830" y="480" />
+        <di:waypoint x="830" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ev4j31_di" bpmnElement="Flow_0ev4j31">
+        <di:waypoint x="830" y="350" />
+        <di:waypoint x="830" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kiyjsm_di" bpmnElement="Flow_0kiyjsm">
+        <di:waypoint x="880" y="270" />
+        <di:waypoint x="950" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g4x7x3_di" bpmnElement="Flow_1g4x7x3">
+        <di:waypoint x="1000" y="310" />
+        <di:waypoint x="1000" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="502" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="545" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vh8i6f_di" bpmnElement="Activity_1vh8i6f">
+        <dc:Bounds x="330" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h7vbgd_di" bpmnElement="Activity_0h7vbgd">
+        <dc:Bounds x="330" y="350" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1epzahd_di" bpmnElement="Activity_1epzahd">
+        <dc:Bounds x="330" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gcs1uc_di" bpmnElement="Activity_1gcs1uc">
+        <dc:Bounds x="500" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ndxlkk_di" bpmnElement="Activity_1ndxlkk">
+        <dc:Bounds x="500" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07uqtfc_di" bpmnElement="Event_07uqtfc">
+        <dc:Bounds x="682" y="502" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="662" y="545" width="77" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07ysiqi" bpmnElement="Activity_0sciobk">
+        <dc:Bounds x="780" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wlicmo_di" bpmnElement="Activity_0wlicmo">
+        <dc:Bounds x="780" y="350" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ky2n71_di" bpmnElement="Activity_1ky2n71">
+        <dc:Bounds x="780" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ns1q2r_di" bpmnElement="Activity_1ns1q2r">
+        <dc:Bounds x="950" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12tj031_di" bpmnElement="Activity_12tj031">
+        <dc:Bounds x="950" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0tuhrpi_di" bpmnElement="Association_0tuhrpi">
+        <di:waypoint x="330" y="376" />
+        <di:waypoint x="290" y="364" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0xytll2_di" bpmnElement="Association_0xytll2">
+        <di:waypoint x="1061" y="160" />
+        <di:waypoint x="1191" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_1bdkbwi_di" bpmnElement="Group_1bdkbwi">
+        <dc:Bounds x="160" y="160" width="1020" height="300" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
